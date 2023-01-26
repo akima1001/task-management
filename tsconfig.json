@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["types", "node_modules/@types"]
+    // TypeOrm
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
+}

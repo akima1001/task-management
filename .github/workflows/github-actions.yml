@@ -1,0 +1,21 @@
+name: nodejs-server-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: test
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - run: npm i --ignore-scripts
+      - run: npm run build
+      - run: npm run jest
