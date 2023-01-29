@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "sourceMap": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -13,11 +13,15 @@
     "esModuleInterop": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["types", "node_modules/@types"]
+    "typeRoots": ["types", "node_modules/@types"],
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
     // TypeOrm
     // "emitDecoratorMetadata": true,
     // "experimentalDecorators": true
   },
-  "include": ["./src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
