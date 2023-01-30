@@ -1,9 +1,9 @@
 import request from 'supertest'
-import server from './app'
+import app from './app'
 
 describe('server test', () => {
   it('/', async () => {
-    const response = await request(server).get('/')
+    const response = await request(app).get('/')
 
     expect(response.statusCode).toBe(200)
   })

@@ -4,6 +4,9 @@ module.exports = {
   verbose: true,
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
   testRegex: '.*\\.spec\\.ts$',
   collectCoverage: true,
   collectCoverageFrom: ['**/*.ts', '!**/node_modules/**'],

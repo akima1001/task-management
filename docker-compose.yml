@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  pg-tm:
+    container_name: pg-tm
+    build:
+      context: .
+      dockerfile: docker/pg/Dockerfile
+    volumes:
+      - pg-tm-v:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - ${DC_PG_TM_PORT}:5432
+    env_file:
+      - docker/pg/.env
+
+  pgadmin4-tm:
+    container_name: pgadmin4-tm
+    build:
+      context: .
+      dockerfile: docker/pgadmin4/Dockerfile
+    volumes:
+      # - ./docker/pgadmin4/export:/var/lib/pgadmin/storage
+      - pgadmin4-tm-v:/var/lib/pgadmin
+    depends_on:
+      - pg-tm
+    restart: always
+    ports:
+      - ${DC_PG_ADMIN4_TM_PORT}:80
+    env_file:
+      - docker/pgadmin4/.env
+volumes:
+  pg-tm-v:
+    name: pg-tm-v
+  pgadmin4-tm-v:
+    name: pgadmin4-tm-v

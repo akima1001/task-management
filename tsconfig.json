@@ -16,12 +16,11 @@
     "typeRoots": ["types", "node_modules/@types"],
     "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"]
-    }
-    // TypeOrm
-    // "emitDecoratorMetadata": true,
-    // "experimentalDecorators": true
+      "@/*": ["src/*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/presentations/.ts"],
   "exclude": ["node_modules"]
 }

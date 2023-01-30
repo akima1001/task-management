@@ -11,7 +11,7 @@ module.exports = {
     'plugin:jest/style',
     'prettier'
   ],
-  plugins: ['@typescript-eslint', 'import', 'unused-imports', 'jest'],
+  plugins: ['@typescript-eslint', 'import', 'unused-imports', 'sort-exports', 'jest'],
   ignorePatterns: ['/node_modules/', '*.js', '*.yml', '*.json'],
   root: true,
   rules: {
@@ -35,5 +35,13 @@ module.exports = {
     'unused-imports/no-unused-imports': 'error',
     'jest/consistent-test-it': ['error', { fn: 'it' }],
     'jest/require-top-level-describe': ['error']
-  }
+  },
+  overrides: [
+    {
+      files: ['**/models/index.{ts,js}'],
+      rules: {
+        'sort-exports/sort-exports': ['error', { sortDir: 'asc' }]
+      }
+    }
+  ]
 }
