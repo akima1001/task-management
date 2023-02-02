@@ -8,6 +8,7 @@ declare module 'process' {
         T_ORM_USERNAME?: string
         T_ORM_PASSWORD?: string
         T_ORM_DATABASE?: string
+        EXPRESS_PORT?: string
       }
     }
   }
