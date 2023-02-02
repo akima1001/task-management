@@ -14,13 +14,13 @@
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["types", "node_modules/@types"],
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*", "src/presentations/.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

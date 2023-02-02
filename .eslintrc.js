@@ -23,6 +23,10 @@ module.exports = {
       'error',
       { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }
     ],
+    '@typescript-eslint/member-ordering': [
+      'error',
+      { default: ['signature', 'field', 'constructor', 'get', 'set', 'method'] }
+    ],
     'import/order': [
       'error',
       {
@@ -45,6 +49,12 @@ module.exports = {
       files: ['**/repositories/*/typeorm.*.repository.{ts,js}'],
       rules: {
         'no-useless-catch': 'off'
+      }
+    },
+    {
+      files: ['**/models/*.model.ts'],
+      rules: {
+        '@typescript-eslint/member-ordering': 'off'
       }
     }
   ]
