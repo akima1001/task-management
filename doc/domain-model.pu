@@ -1,0 +1,89 @@
+@startuml domain-model
+
+package Task集約 {
+    object Task {
+        taskId
+        assignedUserId
+        taskItems
+        taskLabels
+        taskName
+        taskStatus
+        expiredOn
+        startedAt
+    }
+    object TaskItem {
+        taskItemId 
+        taskItemName
+        taskItemStatus
+        expiredOn
+        startedAt
+    }
+    object TaskLabel {
+        taskLabelId
+        taskLabelName
+    }
+    object TaskStatus {
+        taskStatusId
+        taskStatusName
+    }
+}
+package User集約 {
+    object User {
+        usrId
+        userName
+        emailAddress
+        telephoneNumber
+    }
+}
+
+note top of Task
+    * assignedUserId
+    1人のみ
+    * taskItems
+    x<=32
+    * taskLabels
+    x<=32
+    * taskName
+    x<=255
+    * taskStatus
+    x<=16
+    変更可能
+    初期値はtodo
+    * expiredOn
+    startedAtより後
+    * startedAt
+end note
+note right of User
+    * userId
+    * userName
+    x<=128
+    Unique
+    * emailAddress
+    x<=253
+    Unique
+    @マーク必須
+    * telephoneNumber
+    Unique
+    <=18
+end note
+note top of TaskLabel
+    * taskLabelName
+    x<=64
+end note
+note top of TaskItem
+    * taskItemName
+    x<=64
+    * taskItemStatus
+    completed/progress
+    x<=16
+    * expiredOn
+    startedAtより後
+    * startedAt
+end note
+
+Task "0..n" --> "0..1" User
+TaskItem "0..n" --* "1" Task
+TaskLabel "0..n" --* "0..1" Task
+TaskStatus "1" --* "0..n" Task
+
+@enduml

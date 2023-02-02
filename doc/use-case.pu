@@ -1,0 +1,65 @@
+@startuml use-case
+left to right direction
+' i=insert,u=update,s=select,d=delete
+' イメージで分ける
+package "Task" as T {
+    usecase "登録" as t_i1
+    usecase "タスクステータス追加" as t_i2
+    usecase "タスク名更新" as t_u1
+    usecase "ステータス更新" as t_u2
+    usecase "アサイン" as t_u3
+    usecase "タスクラベル更新" as t_u4
+    usecase "指定タスク取得" as t_s1
+    usecase "一覧取得" as t_s2
+    usecase "削除" as t_d1
+    package "TaskItem" as T_I {
+        usecase "登録" as t_i_i1
+        usecase "タスクアイテム名更新" as t_i_u1
+        usecase "完了" as t_i_u2
+        usecase "進行中に戻す" as t_i_u3
+        usecase "一覧取得" as t_i_s1
+        usecase "削除" as t_i_d1
+    }
+    package "TaskLabel" as T_L {
+        usecase "登録" as t_l_i1
+        usecase "タスクラベル名更新" as t_l_u1
+        usecase "一覧取得" as t_l_s1
+        usecase "削除" as t_l_d1
+    }
+}
+
+package "User" as U {
+    usecase "登録" as u_i1
+    usecase "更新" as u_u1
+    usecase "退会" as u_d1
+}
+
+actor user as u
+' Task
+u-->t_i1
+u-->t_u2
+u-->t_u3
+u-->t_u4
+u-->t_s1
+u-->t_s2
+u-->t_d1
+
+' TaskItem
+u-->t_i_i1
+u-->t_i_u1
+u-->t_i_u2
+u-->t_i_u3
+u-->t_i_s1
+u-->t_i_d1
+
+' TaskLabel
+u-->t_l_i1
+u-->t_l_u1
+u-->t_l_s1
+u-->t_l_d1
+
+' User
+u_i1<--u
+u_u1<--u
+u_d1<--u
+@enduml

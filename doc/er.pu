@@ -1,0 +1,81 @@
+@startuml er
+' timestamp = timestamp with time zone
+
+entity "Task" as t {
+    taskId uuid [PK]
+    --
+    assignedUserId uuid [FK]
+    --
+    taskName varchar(64)
+    expiredOn date
+    startedAt timestamp
+    createdAt timestamp
+    updatedAt timestamp
+}
+
+entity "User" as u {
+    userId uuid [PK]
+    --
+    userStatusName varchar(16) [FK]
+    --
+    userName varchar(128)
+    emailAddress varchar(253)
+    telephoneNumber varchar(18)
+    createdAt timestamp
+    updatedAt timestamp
+}
+
+entity "UserStatus" as u_s {
+    userStatusName varchar(16) [PK]
+    --
+    createdAt timestamp
+}
+
+entity "UserAuth" as u_a {
+    userId uuid [PK][FK]
+    userAuthId varchar(254) [PK]
+    ---
+    hash varchar(255)
+    salt varchar(64)
+}
+
+entity "TaskStatus" as t_s {
+    taskStatusId uuid [PK]
+    --
+    taskStatusName varchar(16)
+    createdAt timestamp
+    updatedAt timestamp
+}
+
+entity "TasksTaskStatus" as t_t_s {
+    taskId uuid [PK][FK]
+    taskStatusId uuid [PK][FK]
+    --
+    createdAt timestamp
+}
+
+entity "TaskItem" as t_i {
+    taskItemId uuid [PK]
+    --
+    taskItemName varchar(127)
+    taskItemStatusName varchar(64)
+    expiredOn timestamp
+    startedAt timestamp
+    createdAt timestamp
+}
+
+entity "TaskItemStatus" as t_i_s {
+    taskItemStatusName varchar(16) [PK]
+    --
+    createdAt timestamp
+}
+
+u }o--|| u_s
+u ||--|| u_a 
+t }o--o{ t_t_s
+t ||--o{ t_i
+t }o--|| u
+t_s }o--o{ t_t_s
+t_i }o--|| t_i_s
+
+@enduml
