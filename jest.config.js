@@ -7,8 +7,8 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  testRegex: '.*\\.spec\\.ts$',
-  collectCoverage: true,
-  collectCoverageFrom: ['**/*.ts', '!**/node_modules/**'],
-  coverageReporters: ['html']
+  testRegex: '.*\\.spec\\.ts$'
+  // collectCoverage: true,
+  // collectCoverageFrom: ['**/*.ts', '!**/node_modules/**'],
+  // coverageReporters: ['html']
 }
