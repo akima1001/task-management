@@ -45,7 +45,9 @@ module.exports = {
       files: ['**/models/index.{ts,js}'],
       rules: {
         'sort-exports/sort-exports': ['error', { sortDir: 'asc', ignoreCase: true }]
-      },
+      }
+    },
+    {
       files: ['**/repositories/*/typeorm.*.repository.{ts,js}'],
       rules: {
         'no-useless-catch': 'off'
