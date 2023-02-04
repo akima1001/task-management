@@ -11,7 +11,7 @@ import {
 import { snakeCase } from 'typeorm/util/StringUtils'
 import { UserModel } from './User.model'
 
-export type UserAuthModelProps = Pick<UserAuthModel, 'userId'>
+export type UserAuthModelProps = Pick<UserAuthModel, 'userId' | 'hash' | 'salt'>
 
 @Entity()
 export class UserAuthModel extends BaseEntity {
@@ -20,9 +20,6 @@ export class UserAuthModel extends BaseEntity {
   @OneToOne(() => UserModel, (userModel) => userModel.userId)
   @JoinColumn({ name: snakeCase('userId') })
   userModel: UserModel
-
-  @PrimaryColumn('varchar', { length: 254 })
-  userAuthId: string
 
   @Column('varchar', { length: 255 })
   hash: string

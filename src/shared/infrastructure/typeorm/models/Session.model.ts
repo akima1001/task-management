@@ -6,20 +6,18 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn
+  Unique
 } from 'typeorm'
 import { snakeCase } from 'typeorm/util/StringUtils'
 import { UserModel } from './User.model'
 
-export type TaskModelProps = Pick<
-  TaskModel,
-  'taskId' | 'userId' | 'taskName' | 'expiredOn' | 'startedAt'
->
+export type SessionModelProps = Pick<SessionModel, 'SessionId' | 'userId' | 'expiredAt'>
 
 @Entity()
-export class TaskModel extends BaseEntity {
+@Unique(['userId'])
+export class SessionModel extends BaseEntity {
   @PrimaryColumn('uuid')
-  taskId: string
+  SessionId: string
 
   @Column('uuid')
   userId: string
@@ -27,19 +25,11 @@ export class TaskModel extends BaseEntity {
   @JoinColumn({ name: snakeCase('userId') })
   userModel: UserModel
 
-  @Column('varchar', { length: 255 })
-  taskName: string
-
-  @Column('date')
-  expiredOn: Date
-
   @Column({ type: 'timestamp with time zone' })
-  startedAt: Date
+  expiredAt: Date
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date
-  @UpdateDateColumn({ type: 'timestamp with time zone' })
-  updatedAt: Date
 
-  static build = (props: TaskModelProps) => TaskModel.create({ ...props })
+  static build = (props: SessionModelProps) => SessionModel.create({ ...props })
 }

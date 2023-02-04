@@ -7,6 +7,13 @@ const startServer = (app: express.Express) => {
   })
 }
 
-boot().then((app) => {
-  startServer(app)
-})
+boot()
+  .then((app) => {
+    startServer(app)
+  })
+  .catch((err) => {
+    if (err instanceof Error) {
+      console.error(err.message)
+    }
+    throw err
+  })

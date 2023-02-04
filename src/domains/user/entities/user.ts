@@ -1,9 +1,9 @@
-import { ulid } from 'ulid'
 import { EmailAddress } from '../valueObjects/emailAddress'
 import { TelephoneNumber } from '../valueObjects/telephoneNumber'
 import { UserName } from '../valueObjects/userName'
 import { Entity } from '@/shared/domains/entity'
 import { Id } from '@/shared/domains/id'
+import { createUUId } from '@/shared/libs/createId'
 
 // TODO: どこに置くか考える
 export const UserStatuses = {
@@ -35,7 +35,7 @@ export class User extends Entity<UserProps> {
   }
   static create(props: UserCreateProps, createdAt?: Date): User {
     const user = new User({
-      id: ulid(),
+      id: createUUId(),
       props: { ...props },
       createdAt
     })

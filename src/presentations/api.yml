@@ -1,0 +1,66 @@
+openapi: 3.0.0
+x-stoplight:
+  id: y2xy4cvkfra69
+info:
+  title: task-management
+  version: 0.0.1
+  description: api description
+  contact:
+    name: akima1001
+    email: tmp@tmp.com
+    url: 'https://tmp.com'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/mit-license.php'
+servers:
+  - url: 'http://localhost:11004'
+paths:
+  /auth/signup:
+    post:
+      summary: post-auth-signup
+      operationId: post-auth-signup
+      responses:
+        '200':
+          description: OK
+      tags:
+        - auth
+      description: description
+      requestBody:
+        $ref: '#/components/requestBodies/authSignupRequest'
+components:
+  schemas: {}
+  requestBodies:
+    authSignupRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+                minLength: 1
+                maxLength: 16
+                example: password
+              userName:
+                type: string
+                maxLength: 128
+                minLength: 1
+                example: usrename
+              emailAddress:
+                type: string
+                maxLength: 254
+                format: email
+                example: test@test.com
+              telephoneNumber:
+                type: string
+                maxLength: 18
+                example: '0000000000'
+            required:
+              - password
+              - userName
+              - emailAddress
+              - telephoneNumber
+      description: ''
+tags:
+  - name: auth
+    description: auth

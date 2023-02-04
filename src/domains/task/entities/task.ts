@@ -1,9 +1,9 @@
-import { ulid } from 'ulid'
 import { TaskItem, TaskItemCreateProps } from './taskItem'
 import { TaskLabel } from './taskLabel'
 import { TaskStatus } from './taskStatus'
 import { Entity } from '@/shared/domains/entity'
 import { Id } from '@/shared/domains/id'
+import { createUUId } from '@/shared/libs/createId'
 
 export type TaskProps = {
   assignedUserId: Id
@@ -23,7 +23,7 @@ export class Task extends Entity<TaskProps> {
     const { taskLabels, ...other } = props
 
     return new Task({
-      id: ulid(),
+      id: createUUId(),
       props: { ...other, taskItems: [], taskLabels: taskLabels || [] }
     })
   }

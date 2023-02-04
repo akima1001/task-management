@@ -1,5 +1,5 @@
-import { ulid } from 'ulid'
 import { Entity } from '@/shared/domains/entity'
+import { createUUId } from '@/shared/libs/createId'
 
 export const TaskItemStatuses = {
   PROGRESS: 'progress',
@@ -17,7 +17,7 @@ export type TaskItemCreateProps = Omit<TaskItemProps, 'taskItemStatus'>
 export class TaskItem extends Entity<TaskItemProps> {
   static create(props: TaskItemCreateProps): TaskItem {
     return new TaskItem({
-      id: ulid(),
+      id: createUUId(),
       props: {
         ...props,
         taskItemStatus: TaskItemStatuses.PROGRESS
