@@ -59,7 +59,7 @@ note right of User
     x<=128
     Unique
     * emailAddress
-    x<=253
+    x<=254
     Unique
     @マーク必須
     * telephoneNumber

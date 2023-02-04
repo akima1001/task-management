@@ -19,10 +19,28 @@ entity "User" as u {
     userStatusName varchar(16) [FK]
     --
     userName varchar(128)
-    emailAddress varchar(253)
+    emailAddress varchar(254)
     telephoneNumber varchar(18)
     createdAt timestamp
     updatedAt timestamp
+}
+
+entity "UserAuth" as u_a {
+    userId uuid [PK][FK]
+    ---
+    hash varchar(255)
+    salt varchar(64)
+    cratedAt timestamp
+    updatedAt timestamp
+}
+
+entity "Session" as s {
+    sessionId uuid [PK]
+    ---
+    userId uuid [FK]
+    ---
+    expiredAt: timestamp
+    cratedAt timestamp
 }
 
 entity "UserStatus" as u_s {
@@ -31,13 +49,6 @@ entity "UserStatus" as u_s {
     createdAt timestamp
 }
 
-entity "UserAuth" as u_a {
-    userId uuid [PK][FK]
-    userAuthId varchar(254) [PK]
-    ---
-    hash varchar(255)
-    salt varchar(64)
-}
 
 entity "TaskStatus" as t_s {
     taskStatusId uuid [PK]
@@ -71,7 +82,8 @@ entity "TaskItemStatus" as t_i_s {
 }
 
 u }o--|| u_s
-u ||--|| u_a 
+u ||--|| u_a
+u |o--o| s
 t }o--o{ t_t_s
 t ||--o{ t_i
 t }o--|| u
