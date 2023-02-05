@@ -17,16 +17,18 @@ export class SignupUseCase {
   constructor(@inject(INVERSIFY_TYPES.AuthRepository) authRepository: AuthRepository) {
     this.authRepository = authRepository
   }
-  async execute(req: AuthSignupUseCaseProps): Promise<{ user: User }> {
+  async execute(req: AuthSignupUseCaseProps): Promise<User> {
     const { userName, emailAddress, telephoneNumber, ...signUpProps } = req
 
-    const { user } = await this.authRepository.signup({
+    // TODO: User作成とSignUpは責務を分けるべきだろう
+    // そうすると結果整合性となるため、トランザクションを貼りたい
+    const user = await this.authRepository.signup({
       userName: new UserName({ value: userName }),
       emailAddress: new EmailAddress({ value: emailAddress }),
       telephoneNumber: new TelephoneNumber({ value: telephoneNumber }),
       ...signUpProps
     })
 
-    return { user }
+    return user
   }
 }

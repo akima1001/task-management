@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import { TypeOrmAuthRepository } from './typeorm.auth.repository'
-import { AuthRepositorySignUpProps } from '@/domains/auth/auth.repository'
+import { AuthRepositoryLoginProps, AuthRepositorySignUpProps } from '@/domains/auth/auth.repository'
 import { User, UserStatuses } from '@/domains/user/entities/user'
 import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
 import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
@@ -10,20 +10,16 @@ import { SessionModel, UserStatusModel } from '@/shared/infrastructure/typeorm/m
 
 describe('typeorm auth repository', () => {
   beforeAll(async () => {
-    await appDataSource.initialize().catch((err) => {
+    try {
+      await appDataSource.initialize()
+      await appDataSource.transaction(async (em) => {
+        await em
+          .getRepository(UserStatusModel)
+          .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
+      })
+    } catch (err) {
       console.error(`during data source: ${err}`)
-
-      throw err
-    })
-    console.log('data source initialized')
-    await appDataSource.transaction(async (em) => {
-      await em
-        .getRepository(UserStatusModel)
-        .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
-        .catch((err) => {
-          throw err
-        })
-    })
+    }
   })
   afterAll(async () => {
     await appDataSource.destroy()
@@ -42,23 +38,26 @@ describe('typeorm auth repository', () => {
       telephoneNumber
     }
 
-    const { user: newUser } = await new TypeOrmAuthRepository().signup(authRepositorySignUpProps)
+    const newUser = await new TypeOrmAuthRepository().signup(authRepositorySignUpProps)
 
     user = newUser
     expect(user).toBeDefined()
   })
+  type SessionId = Pick<SessionModel, 'sessionId'>
+  let firstSession: SessionId = undefined
   it('login', async () => {
-    await new TypeOrmAuthRepository().login({
+    const authRepositoryLoginProps: AuthRepositoryLoginProps = {
       userId: user.id,
       password
-    })
-
-    const result = await appDataSource
+    }
+    await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
+    firstSession = await appDataSource
       .createQueryBuilder()
+      .select('session_id', 'sessionId')
       .from(SessionModel, 's')
       .where({ userId: user.id })
-      .getOne()
-    expect(result).toBeDefined()
+      .getRawOne<SessionId>()
+    expect(firstSession.sessionId).toBeDefined()
 
     const incorrectUserIdLoginPromise = new TypeOrmAuthRepository().login({
       userId: randomUUID(),
@@ -70,5 +69,19 @@ describe('typeorm auth repository', () => {
       password: 'incorrect password'
     })
     await expect(incorrectPasswordLoginPromise).rejects.toThrow('incorrect password')
+  })
+  it('secondLogin', async () => {
+    const authRepositoryLoginProps: AuthRepositoryLoginProps = {
+      userId: user.id,
+      password
+    }
+    await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
+    const secondSession = await appDataSource
+      .createQueryBuilder()
+      .select('session_id', 'sessionId')
+      .from(SessionModel, 's')
+      .where({ userId: user.id })
+      .getRawOne<SessionId>()
+    expect(firstSession.sessionId !== secondSession.sessionId).toBeTruthy()
   })
 })

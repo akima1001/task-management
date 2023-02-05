@@ -21,7 +21,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   login(_props: AuthRepositoryLoginProps): Promise<void> {
     throw new Error('Method not implemented.')
   }
-  signup(props: AuthRepositorySignUpProps): Promise<{ user: User }> {
+  signup(props: AuthRepositorySignUpProps): Promise<User> {
     return new Promise((resolve) => {
       setTimeout(() => {
         const { password, ...userCreateProps } = props
@@ -33,7 +33,7 @@ export class InMemoryAuthRepository implements AuthRepository {
         const hash = cryptoCreateHash(password, salt)
         this.UserAuthList.set(newUser.id, { userId: newUser.id, hash, salt })
 
-        resolve({ user: newUser })
+        resolve(newUser)
       }, 1000)
     })
   }

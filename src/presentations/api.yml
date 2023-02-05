@@ -1,6 +1,4 @@
 openapi: 3.0.0
-x-stoplight:
-  id: y2xy4cvkfra69
 info:
   title: task-management
   version: 0.0.1
@@ -8,7 +6,7 @@ info:
   contact:
     name: akima1001
     email: tmp@tmp.com
-    url: 'https://tmp.com'
+    url: 'https://github.com/Mas423'
   license:
     name: MIT
     url: 'https://opensource.org/licenses/mit-license.php'

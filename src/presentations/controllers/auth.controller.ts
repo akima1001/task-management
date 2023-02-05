@@ -17,7 +17,7 @@ export class AuthController {
     this.authRepository = authRepository
   }
   async signup(req: Request, res: Response<SignupResponse>) {
-    const { user } = await new SignupUseCase(this.authRepository).execute(
+    const user = await new SignupUseCase(this.authRepository).execute(
       req.body as AuthSignupUseCaseProps
     )
 
