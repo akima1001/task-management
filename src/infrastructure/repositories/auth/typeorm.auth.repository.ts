@@ -31,17 +31,19 @@ export class TypeOrmAuthRepository implements AuthRepository {
     const { userId, password } = props
     let response: AuthRepositoryLoginResponse = undefined
     await appDataSource.transaction(async (em) => {
-      const selectedUsrAuth = await em
-        .createQueryBuilder()
-        .select('hash')
-        .addSelect('salt')
-        .from(UserAuthModel, 'u_a')
-        .where({ userId })
-        .getRawOne<Pick<UserAuthModel, 'hash' | 'salt'>>()
-      if (!selectedUsrAuth) {
+      const foundUserAuth = await em.findOne(UserAuthModel, {
+        select: {
+          hash: true,
+          salt: true
+        },
+        where: {
+          userId
+        }
+      })
+      if (!foundUserAuth) {
         throw new Error('incorrect userId')
       }
-      const { hash, salt } = selectedUsrAuth
+      const { hash, salt } = foundUserAuth
       const reCreatedHash = cryptoCreateHash(password, salt)
       if (hash !== reCreatedHash) {
         throw new Error('incorrect password')
