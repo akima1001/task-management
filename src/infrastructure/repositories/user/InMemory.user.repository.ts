@@ -17,14 +17,14 @@ export class InMemoryUserRepository implements UserRepository {
       }, 1000)
     })
   }
-  find(userId: Id): Promise<{ user: User }> {
+  find(userId: Id): Promise<User> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const foundUser = this.users.get(userId)
         if (!foundUser) {
           reject(new Error('not found user'))
         }
-        resolve({ user: this.cloneObject(foundUser) })
+        resolve(this.cloneObject(foundUser))
       }, 1000)
     })
   }

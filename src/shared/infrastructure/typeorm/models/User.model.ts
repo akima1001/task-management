@@ -20,6 +20,7 @@ export type UserModelProps = Pick<
   'userId' | 'userStatusName' | 'userName' | 'emailAddress' | 'telephoneNumber'
 >
 
+// TODO: 退会ユーザに既にUnique指定の値が使用されている場合はどうするか
 @Entity()
 export class UserModel extends BaseEntity {
   @PrimaryColumn('uuid')

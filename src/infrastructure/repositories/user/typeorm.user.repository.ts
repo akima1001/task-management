@@ -7,10 +7,11 @@ import { UserModel, UserStatusModel } from '@/shared/infrastructure/typeorm/mode
 export class TypeORMUserRepository implements UserRepository {
   async save(user: User): Promise<void> {
     await appDataSource.transaction(async (em) => {
+      // TODO: 既存ユーザの確認
       await em.save(user)
     })
   }
-  async find(userId: Id): Promise<{ user: User }> {
+  async find(userId: Id): Promise<User> {
     let activeUserModel: UserModel = undefined
     await appDataSource.transaction(async (em) => {
       try {
@@ -40,7 +41,7 @@ export class TypeORMUserRepository implements UserRepository {
       throw new Error('not found active user')
     }
 
-    return { user: UserModel.toDomain(activeUserModel) }
+    return UserModel.toDomain(activeUserModel)
   }
   async exists(userCreateProps: UserCreateProps): Promise<{ exists: boolean }> {
     const { userName, emailAddress, telephoneNumber } = userCreateProps

@@ -20,8 +20,12 @@ export class SignupUseCase {
   async execute(req: AuthSignupUseCaseProps): Promise<User> {
     const { userName, emailAddress, telephoneNumber, ...signUpProps } = req
 
-    // TODO: User作成とSignUpは責務を分けるべきだろう
-    // そうすると結果整合性となるため、トランザクションを貼りたい
+    /*
+    MEMO
+    ・アンチパターンの採用してでもトランザクションを貼るべきか
+    ・貼るとすればどんな方法が良いか
+    ・集約をまたがってしまっているので責務を分けるべきか
+    */
     const user = await this.authRepository.signup({
       userName: new UserName({ value: userName }),
       emailAddress: new EmailAddress({ value: emailAddress }),

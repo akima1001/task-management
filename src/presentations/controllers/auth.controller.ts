@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { inject } from 'inversify'
 import { AuthRepository } from '@/domains/auth/auth.repository'
+import { UserRepository } from '@/domains/user/userRepository'
 import { INVERSIFY_TYPES } from '@/shared/libs/inversify.types'
-import { SignupUseCase, AuthSignupUseCaseProps } from '@/useCases/shared/auth/signUp/signUp.useCase'
+import { SignupUseCase, AuthSignupUseCaseProps } from '@/useCases/shared/auth/signup/signup.useCase'
 
 type SignupResponse = {
   userId: string
@@ -13,6 +14,8 @@ type SignupResponse = {
 
 export class AuthController {
   private readonly authRepository: AuthRepository
+  private readonly userRepository: UserRepository
+
   constructor(@inject(INVERSIFY_TYPES.AuthRepository) authRepository: AuthRepository) {
     this.authRepository = authRepository
   }

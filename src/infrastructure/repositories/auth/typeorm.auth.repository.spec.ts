@@ -43,6 +43,17 @@ describe('typeorm auth repository', () => {
     user = newUser
     expect(user).toBeDefined()
   })
+  it('duplicatedUser', async () => {
+    const duplicatedUserNameProps: AuthRepositorySignUpProps = {
+      password,
+      userName,
+      emailAddress: new EmailAddress({ value: 'hoge@hoge.com' }),
+      telephoneNumber: new TelephoneNumber({ value: '1234567890' })
+    }
+
+    const duplicatedUserNamePromise = new TypeOrmAuthRepository().signup(duplicatedUserNameProps)
+    await expect(duplicatedUserNamePromise).rejects.toThrow('already exists user')
+  })
   type SessionId = Pick<SessionModel, 'sessionId'>
   let firstSession: SessionId = undefined
   it('login', async () => {

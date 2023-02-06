@@ -1,4 +1,4 @@
-import { InMemoryUserRepository } from './InMemoryUserRepository'
+import { InMemoryUserRepository } from './InMemory.user.repository'
 import { User, UserCreateProps, UserStatuses } from '@/domains/user/entities/user'
 import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
 import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
@@ -20,7 +20,7 @@ describe('InMemoryUserRepository', () => {
     const inMemoryUserRepository = new InMemoryUserRepository()
     const user = User.create(userCreateProps)
     await inMemoryUserRepository.save(user)
-    const { user: foundUser } = await inMemoryUserRepository.find(user.id)
+    const foundUser = await inMemoryUserRepository.find(user.id)
     expect(foundUser).toEqual(user)
   })
   it('exists', async () => {

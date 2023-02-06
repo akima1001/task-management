@@ -11,13 +11,14 @@ import {
 import { snakeCase } from 'typeorm/util/StringUtils'
 import { UserModel } from './User.model'
 
-export type SessionModelProps = Pick<SessionModel, 'SessionId' | 'userId' | 'expiredAt'>
+export type SessionModelProps = Pick<SessionModel, 'sessionId' | 'userId' | 'expiredAt'>
 
+export const SessionModelUserIdUQKey = 'UQ_sessions_user_id'
 @Entity()
-@Unique(['userId'])
+@Unique(SessionModelUserIdUQKey, ['userId'])
 export class SessionModel extends BaseEntity {
   @PrimaryColumn('uuid')
-  SessionId: string
+  sessionId: string
 
   @Column('uuid')
   userId: string
