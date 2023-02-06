@@ -4,6 +4,7 @@ import path from 'path'
 import cors from 'cors'
 import express from 'express'
 import { middleware as openApiMiddleware } from 'express-openapi-validator'
+import helmet from 'helmet'
 import { errorHandler } from './middleware/errorHandler'
 import router from './routes/routes'
 import { UserStatuses } from '@/domains/user/entities/user'
@@ -29,6 +30,7 @@ export const boot = async () => {
   })
 
   const app = express()
+  app.use(helmet())
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use(

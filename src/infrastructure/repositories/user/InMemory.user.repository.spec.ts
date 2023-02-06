@@ -20,7 +20,7 @@ describe('InMemoryUserRepository', () => {
     const inMemoryUserRepository = new InMemoryUserRepository()
     const user = User.create(userCreateProps)
     await inMemoryUserRepository.save(user)
-    const foundUser = await inMemoryUserRepository.find(user.id)
+    const foundUser = await inMemoryUserRepository.findByUserId(user.id)
     expect(foundUser).toEqual(user)
   })
   it('exists', async () => {

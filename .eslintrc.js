@@ -48,12 +48,6 @@ module.exports = {
       }
     },
     {
-      files: ['**/repositories/*/typeorm.*.repository.{ts,js}'],
-      rules: {
-        'no-useless-catch': 'off'
-      }
-    },
-    {
       files: ['**/models/*.model.ts'],
       rules: {
         '@typescript-eslint/member-ordering': 'off'

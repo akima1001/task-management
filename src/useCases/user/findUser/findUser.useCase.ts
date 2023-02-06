@@ -10,6 +10,6 @@ export class FindUserUseCase {
   }
 
   async execute(userId: Id): Promise<FindUserDTO> {
-    return await this.userRepository.find(userId)
+    return await this.userRepository.findByUserId(userId)
   }
 }

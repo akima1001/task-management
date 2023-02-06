@@ -9,6 +9,7 @@ import { User, UserStatuses, UserStatusType } from '@/domains/user/entities/user
 import { Id } from '@/shared/domains/id'
 import { UserAuthModelProps } from '@/shared/infrastructure/typeorm/models'
 import { cryptoCreateHash } from '@/shared/libs/cryptoCreateHash'
+import { LoginUserCaseDTO } from '@/useCases/shared/auth/login/login.dto'
 
 export type UserAuth = UserAuthModelProps
 type UserId = Id
@@ -18,7 +19,7 @@ export class InMemoryAuthRepository implements AuthRepository {
   Users: Map<Id, User> = new Map<Id, User>()
   UserStatusList: Map<Id, UserStatusType> = new Map<Id, UserStatusType>()
 
-  login(_props: AuthRepositoryLoginProps): Promise<void> {
+  login(_props: AuthRepositoryLoginProps): Promise<LoginUserCaseDTO> {
     throw new Error('Method not implemented.')
   }
   signup(props: AuthRepositorySignUpProps): Promise<User> {

@@ -19,6 +19,7 @@ export type UserModelProps = Pick<
   UserModel,
   'userId' | 'userStatusName' | 'userName' | 'emailAddress' | 'telephoneNumber'
 >
+export type UserModelFields = UserModelProps & Pick<UserModel, 'createdAt' | 'updatedAt'>
 
 // TODO: 退会ユーザに既にUnique指定の値が使用されている場合はどうするか
 @Entity()
@@ -47,7 +48,7 @@ export class UserModel extends BaseEntity {
   updatedAt: Date
 
   static build = (props: UserModelProps) => UserModel.create({ ...props })
-  static toDomain = (userModel: UserModel): User => {
+  static toDomain = (userModel: UserModelFields): User => {
     const { userId, userName, emailAddress, telephoneNumber, createdAt } = userModel
     const userProps: UserProps = {
       userName: new UserName({ value: userName }),

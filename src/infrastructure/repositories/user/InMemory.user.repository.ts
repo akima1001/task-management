@@ -1,6 +1,7 @@
 import clone from 'clone'
 import { User, UserCreateProps, UserStatuses, UserStatusType } from '@/domains/user/entities/user'
 import { UserRepository } from '@/domains/user/userRepository'
+import { UserName } from '@/domains/user/valueObjects/userName'
 import { Id } from '@/shared/domains/id'
 
 export class InMemoryUserRepository implements UserRepository {
@@ -17,7 +18,18 @@ export class InMemoryUserRepository implements UserRepository {
       }, 1000)
     })
   }
-  find(userId: Id): Promise<User> {
+  findByUserName(_userName: UserName): Promise<User> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const foundUser = this.users.get('')
+        if (!foundUser) {
+          reject(new Error('not found user'))
+        }
+        resolve(this.cloneObject(foundUser))
+      }, 1000)
+    })
+  }
+  findByUserId(userId: Id): Promise<User> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const foundUser = this.users.get(userId)

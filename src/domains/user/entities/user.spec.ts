@@ -1,8 +1,8 @@
-import { ulid } from 'ulid'
 import { EmailAddress } from '../valueObjects/emailAddress'
 import { TelephoneNumber } from '../valueObjects/telephoneNumber'
 import { UserName } from '../valueObjects/userName'
 import { User } from './user'
+import { createUUId } from '@/shared/libs/createId'
 
 describe('user.entity', () => {
   it('create', () => {
@@ -17,7 +17,7 @@ describe('user.entity', () => {
     expect(user.id).toBeDefined()
   })
   it('reconstruct', () => {
-    const userId = ulid()
+    const userId = createUUId()
     const userName = new UserName({ value: 'userName' })
     const emailAddress = new EmailAddress({ value: 'email@email.com' })
     const telephoneNumber = new TelephoneNumber({ value: '0000000000' })

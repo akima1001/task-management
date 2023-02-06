@@ -61,13 +61,7 @@ describe('typeorm auth repository', () => {
       userId: user.id,
       password
     }
-    await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
-    firstSession = await appDataSource
-      .createQueryBuilder()
-      .select('session_id', 'sessionId')
-      .from(SessionModel, 's')
-      .where({ userId: user.id })
-      .getRawOne<SessionId>()
+    firstSession = await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
     expect(firstSession.sessionId).toBeDefined()
 
     const incorrectUserIdLoginPromise = new TypeOrmAuthRepository().login({
@@ -86,13 +80,7 @@ describe('typeorm auth repository', () => {
       userId: user.id,
       password
     }
-    await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
-    const secondSession = await appDataSource
-      .createQueryBuilder()
-      .select('session_id', 'sessionId')
-      .from(SessionModel, 's')
-      .where({ userId: user.id })
-      .getRawOne<SessionId>()
+    const secondSession = await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
     expect(firstSession.sessionId !== secondSession.sessionId).toBeTruthy()
   })
 })
