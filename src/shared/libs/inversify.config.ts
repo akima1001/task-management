@@ -1,5 +1,5 @@
 import { Container } from 'inversify'
-import { INVERSIFY_TYPES } from './inversify.types'
+import { AUTH_TYPES, USER_TYPES } from './inversify.types'
 import { AuthRepository } from '@/domains/auth/auth.repository'
 import { UserRepository } from '@/domains/user/userRepository'
 import { TypeOrmAuthRepository } from '@/infrastructure/repositories/auth/typeorm.auth.repository'
@@ -9,9 +9,9 @@ import { LogoutUseCase } from '@/useCases/shared/auth/logout/logout.useCase'
 import { SignupUseCase } from '@/useCases/shared/auth/signup/signup.useCase'
 
 export const container = new Container()
-container.bind<AuthRepository>(INVERSIFY_TYPES.AuthRepository).to(TypeOrmAuthRepository)
-container.bind<UserRepository>(INVERSIFY_TYPES.UserRepository).to(TypeORMUserRepository)
+container.bind<AuthRepository>(AUTH_TYPES.AuthRepository).to(TypeOrmAuthRepository)
+container.bind<SignupUseCase>(AUTH_TYPES.SignupUseCase).to(SignupUseCase)
+container.bind<LoginUseCase>(AUTH_TYPES.LoginUseCase).to(LoginUseCase)
+container.bind<LogoutUseCase>(AUTH_TYPES.LogoutUseCase).to(LogoutUseCase)
 
-container.bind<SignupUseCase>(INVERSIFY_TYPES.SignupUseCase).to(SignupUseCase)
-container.bind<LoginUseCase>(INVERSIFY_TYPES.LoginUseCase).to(LoginUseCase)
-container.bind<LogoutUseCase>(INVERSIFY_TYPES.LogoutUseCase).to(LogoutUseCase)
+container.bind<UserRepository>(USER_TYPES.UserRepository).to(TypeORMUserRepository)

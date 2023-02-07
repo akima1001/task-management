@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["types", "node_modules/@types"],
+    "typeRoots": ["src/types", "node_modules/@types"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

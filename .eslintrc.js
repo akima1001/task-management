@@ -42,7 +42,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/models/index.{ts,js}'],
+      files: ['**/models/index.ts'],
       rules: {
         'sort-exports/sort-exports': ['error', { sortDir: 'asc', ignoreCase: true }]
       }

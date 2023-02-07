@@ -2,7 +2,7 @@ declare module 'process' {
   global {
     namespace NodeJS {
       interface ProcessEnv {
-        NODE_ENV?: string
+        NODE_ENV?: 'production' | 'development' | 'test'
         T_ORM_HOST?: string
         T_ORM_PORT?: string
         T_ORM_USERNAME?: string

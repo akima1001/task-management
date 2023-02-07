@@ -15,5 +15,4 @@ boot()
     if (err instanceof Error) {
       console.error(err.message)
     }
-    throw err
   })

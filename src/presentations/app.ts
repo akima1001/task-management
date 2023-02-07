@@ -12,6 +12,7 @@ import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'
 import { UserStatusModel } from '@/shared/infrastructure/typeorm/models'
 
 export const boot = async () => {
+  // TODO: 依存の解消
   await appDataSource.initialize().catch((err) => {
     console.error(`during data source: ${err}`)
 
@@ -19,15 +20,17 @@ export const boot = async () => {
   })
   console.log(`data source initialized`)
 
-  // TMP: UserStatus
-  await appDataSource.transaction(async (em) => {
-    await em
-      .getRepository(UserStatusModel)
-      .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
-      .catch((err) => {
-        throw err
-      })
-  })
+  // TODO: 開発時のみ初期情報を入れる
+  if (process.env.NODE_ENV !== 'production') {
+    await appDataSource.transaction(async (em) => {
+      await em
+        .getRepository(UserStatusModel)
+        .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
+        .catch((err) => {
+          throw err
+        })
+    })
+  }
 
   const app = express()
   app.use(helmet())

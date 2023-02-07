@@ -3,7 +3,7 @@ import { LoginUserCaseDTO } from './login.dto'
 import { AuthRepository } from '@/domains/auth/auth.repository'
 import { UserRepository } from '@/domains/user/userRepository'
 import { UserName } from '@/domains/user/valueObjects/userName'
-import { INVERSIFY_TYPES } from '@/shared/libs/inversify.types'
+import { AUTH_TYPES, USER_TYPES } from '@/shared/libs/inversify.types'
 
 export type LoginUseCaseProps = {
   userName: string
@@ -15,8 +15,8 @@ export class LoginUseCase {
   private readonly authRepository: AuthRepository
   private readonly userRepository: UserRepository
   constructor(
-    @inject(INVERSIFY_TYPES.AuthRepository) authRepository: AuthRepository,
-    @inject(INVERSIFY_TYPES.UserRepository) userRepository: UserRepository
+    @inject(AUTH_TYPES.AuthRepository) authRepository: AuthRepository,
+    @inject(USER_TYPES.UserRepository) userRepository: UserRepository
   ) {
     this.authRepository = authRepository
     this.userRepository = userRepository

@@ -4,7 +4,7 @@ import { AuthRepository, SignUpProps } from '@/domains/auth/auth.repository'
 import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
 import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
 import { UserName } from '@/domains/user/valueObjects/userName'
-import { INVERSIFY_TYPES } from '@/shared/libs/inversify.types'
+import { AUTH_TYPES } from '@/shared/libs/inversify.types'
 
 export type AuthSignupUseCaseProps = SignUpProps & {
   userName: string
@@ -15,7 +15,7 @@ export type AuthSignupUseCaseProps = SignUpProps & {
 @injectable()
 export class SignupUseCase {
   private readonly authRepository: AuthRepository
-  constructor(@inject(INVERSIFY_TYPES.AuthRepository) authRepository: AuthRepository) {
+  constructor(@inject(AUTH_TYPES.AuthRepository) authRepository: AuthRepository) {
     this.authRepository = authRepository
   }
   async execute(props: AuthSignupUseCaseProps): Promise<SignupDTO> {
