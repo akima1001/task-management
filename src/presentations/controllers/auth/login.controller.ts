@@ -4,9 +4,9 @@ import { baseCookieOption } from '@/shared/libs/baseCookieOption'
 import { INVERSIFY_TYPES } from '@/shared/libs/inversify.types'
 import { CookieTypes } from '@/shared/presentations/cookieTypes'
 import { LoginUserCaseDTO } from '@/useCases/shared/auth/login/login.dto'
-import { AuthLoginUseCaseProps, LoginUseCase } from '@/useCases/shared/auth/login/login.userCase'
+import { LoginUseCaseProps, LoginUseCase } from '@/useCases/shared/auth/login/login.userCase'
 
-type LoginRequest = AuthLoginUseCaseProps
+type LoginRequest = LoginUseCaseProps
 type LoginResponse = Omit<LoginUserCaseDTO, 'sessionId'>
 
 export class LoginController {

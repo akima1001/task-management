@@ -9,8 +9,10 @@ export type AuthRepositorySignUpResponse = User
 
 export type AuthRepositoryLoginProps = { userId: string; password: string }
 export type AuthRepositoryLoginResponse = Pick<SessionModel, 'sessionId'>
+export type AuthRepositoryLogoutProps = { sessionId: string }
 
 export interface AuthRepository {
   signup(props: AuthRepositorySignUpProps): Promise<User>
   login(props: AuthRepositoryLoginProps): Promise<AuthRepositoryLoginResponse>
+  logout(props: AuthRepositoryLogoutProps): Promise<void>
 }

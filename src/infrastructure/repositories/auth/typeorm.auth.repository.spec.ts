@@ -1,6 +1,10 @@
 import { randomUUID } from 'crypto'
 import { TypeOrmAuthRepository } from './typeorm.auth.repository'
-import { AuthRepositoryLoginProps, AuthRepositorySignUpProps } from '@/domains/auth/auth.repository'
+import {
+  AuthRepositoryLoginProps,
+  AuthRepositoryLogoutProps,
+  AuthRepositorySignUpProps
+} from '@/domains/auth/auth.repository'
 import { User, UserStatuses } from '@/domains/user/entities/user'
 import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
 import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
@@ -82,5 +86,21 @@ describe('typeorm auth repository', () => {
     }
     const secondSession = await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
     expect(firstSession.sessionId !== secondSession.sessionId).toBeTruthy()
+  })
+  it('logout', async () => {
+    const authRepositoryLoginProps: AuthRepositoryLoginProps = {
+      userId: user.id,
+      password
+    }
+    const { sessionId } = await new TypeOrmAuthRepository().login(authRepositoryLoginProps)
+    const props: AuthRepositoryLogoutProps = {
+      sessionId
+    }
+    const resolve = appDataSource.getRepository(SessionModel).findOneByOrFail({ sessionId })
+    await expect(resolve).resolves.toBeDefined()
+
+    await new TypeOrmAuthRepository().logout(props)
+    const reject = appDataSource.getRepository(SessionModel).findOneByOrFail({ sessionId })
+    await expect(reject).rejects.toThrow()
   })
 })

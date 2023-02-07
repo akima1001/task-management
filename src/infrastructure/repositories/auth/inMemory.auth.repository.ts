@@ -3,6 +3,7 @@ import clone from 'clone'
 import {
   AuthRepository,
   AuthRepositoryLoginProps,
+  AuthRepositoryLogoutProps,
   AuthRepositorySignUpProps
 } from '@/domains/auth/auth.repository'
 import { User, UserStatuses, UserStatusType } from '@/domains/user/entities/user'
@@ -37,5 +38,8 @@ export class InMemoryAuthRepository implements AuthRepository {
         resolve(newUser)
       }, 1000)
     })
+  }
+  logout(_props: AuthRepositoryLogoutProps): Promise<void> {
+    throw new Error('Method not implemented.')
   }
 }

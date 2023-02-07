@@ -6,6 +6,7 @@ import {
   AuthRepository,
   AuthRepositoryLoginProps,
   AuthRepositoryLoginResponse,
+  AuthRepositoryLogoutProps,
   AuthRepositorySignUpProps
 } from '@/domains/auth/auth.repository'
 import { User, UserStatuses } from '@/domains/user/entities/user'
@@ -104,5 +105,15 @@ export class TypeOrmAuthRepository implements AuthRepository {
     })
 
     return response
+  }
+  async logout(props: AuthRepositoryLogoutProps): Promise<void> {
+    const { sessionId } = props
+    await appDataSource
+      .getRepository(SessionModel)
+      .createQueryBuilder()
+      .delete()
+      .from(SessionModel, 's')
+      .where({ sessionId })
+      .execute()
   }
 }

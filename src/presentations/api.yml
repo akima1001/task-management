@@ -7,8 +7,7 @@ info:
   description: api description
   contact:
     name: akima1001
-    email: tmp@tmp.com
-    url: 'https://tmp.com'
+    url: 'https://github.com/Mas423'
   license:
     name: MIT
     url: 'https://opensource.org/licenses/mit-license.php'
@@ -24,7 +23,7 @@ paths:
           description: OK
       tags:
         - auth
-      description: description
+      description: 新規ユーザを作成。ログインセッションを発行する。
       requestBody:
         $ref: '#/components/requestBodies/authSignupRequest'
   /auth/login:
@@ -38,6 +37,19 @@ paths:
         - auth
       requestBody:
         $ref: '#/components/requestBodies/authLoginRequest'
+      description: ログインセッションを発行する。
+  /auth/logout:
+    get:
+      summary: get-auth-logout
+      tags:
+        - auth
+      responses:
+        '200':
+          description: OK
+      operationId: get-auth-logout
+      parameters:
+        - $ref: '#/components/parameters/session'
+      description: ログインセッションを削除する。
 components:
   schemas: {}
   requestBodies:
@@ -88,6 +100,13 @@ components:
             required:
               - userName
               - password
+  parameters:
+    session:
+      name: session
+      in: cookie
+      required: false
+      schema:
+        type: string
 tags:
   - name: auth
     description: auth

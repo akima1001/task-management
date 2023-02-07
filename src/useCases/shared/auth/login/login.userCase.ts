@@ -5,7 +5,7 @@ import { UserRepository } from '@/domains/user/userRepository'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { INVERSIFY_TYPES } from '@/shared/libs/inversify.types'
 
-export type AuthLoginUseCaseProps = {
+export type LoginUseCaseProps = {
   userName: string
   password: string
 }
@@ -21,7 +21,7 @@ export class LoginUseCase {
     this.authRepository = authRepository
     this.userRepository = userRepository
   }
-  async execute(props: AuthLoginUseCaseProps): Promise<LoginUserCaseDTO> {
+  async execute(props: LoginUseCaseProps): Promise<LoginUserCaseDTO> {
     const { userName, password } = props
     const user = await this.userRepository.findByUserName(new UserName({ value: userName }))
     if (!user) {
