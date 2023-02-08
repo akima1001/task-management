@@ -8,7 +8,7 @@
     "tsnd": "tsnd --respawn -r tsconfig-paths/register src/server.ts",
     "prettier": "prettier --write --cache --config .prettierrc.js src",
     "lint:fix": "eslint --cache --fix src --ext ts && npm run prettier",
-    "jest": "jest",
+    "jest": "jest --runInBand",
     "prepare": "husky install"
   },
   "devDependencies": {
