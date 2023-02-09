@@ -13,19 +13,20 @@ import { UserModel } from './User.model'
 
 export type TaskModelProps = Pick<
   TaskModel,
-  'taskId' | 'userId' | 'taskName' | 'expiredOn' | 'startedAt'
+  'taskId' | 'createdUserId' | 'taskName' | 'expiredOn' | 'startedAt'
 >
 
+const createdUserIdKey: keyof Pick<TaskModel, 'createdUserId'> = 'createdUserId'
 @Entity()
 export class TaskModel extends BaseEntity {
   @PrimaryColumn('uuid')
   taskId: string
 
   @Column('uuid')
-  userId: string
+  createdUserId: string
   @ManyToOne(() => UserModel, (userModel) => userModel.userId)
-  @JoinColumn({ name: snakeCase('userId') })
-  userModel: UserModel
+  @JoinColumn({ name: snakeCase(createdUserIdKey) })
+  createdUserModel: UserModel
 
   @Column('varchar', { length: 255 })
   taskName: string

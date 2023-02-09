@@ -13,12 +13,13 @@ import { UserModel } from './User.model'
 
 export type UserAuthModelProps = Pick<UserAuthModel, 'userId' | 'hash' | 'salt'>
 
+const userIdKey: keyof Pick<UserAuthModel, 'userId'> = 'userId'
 @Entity()
 export class UserAuthModel extends BaseEntity {
   @PrimaryColumn('uuid')
   userId: string
   @OneToOne(() => UserModel, (userModel) => userModel.userId)
-  @JoinColumn({ name: snakeCase('userId') })
+  @JoinColumn({ name: snakeCase(userIdKey) })
   userModel: UserModel
 
   @Column('varchar', { length: 255 })

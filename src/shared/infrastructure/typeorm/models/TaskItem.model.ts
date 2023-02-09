@@ -16,6 +16,7 @@ export type TaskItemModelProps = Pick<
   'taskItemId' | 'taskItemStatusName' | 'taskItemName' | 'expiredOn' | 'startedAt'
 >
 
+const taskItemStatusNameKey: keyof Pick<TaskItemModel, 'taskItemStatusName'> = 'taskItemStatusName'
 @Entity()
 export class TaskItemModel extends BaseEntity {
   @PrimaryColumn('uuid')
@@ -27,7 +28,7 @@ export class TaskItemModel extends BaseEntity {
     () => TaskItemStatusModel,
     (taskItemStatusModel) => taskItemStatusModel.taskItemStatusName
   )
-  @JoinColumn({ name: snakeCase('taskItemStatusName') })
+  @JoinColumn({ name: snakeCase(taskItemStatusNameKey) })
   taskItemStatusModel: TaskItemStatusModel
 
   @Column('varchar', { length: 64 })

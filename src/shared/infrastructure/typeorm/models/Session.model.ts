@@ -14,6 +14,7 @@ import { UserModel } from './User.model'
 export type SessionModelProps = Pick<SessionModel, 'sessionId' | 'userId' | 'expiredAt'>
 
 export const SessionModelUserIdUQKey = 'UQ_sessions_user_id'
+const userIdKey: keyof Pick<SessionModel, 'userId'> = 'userId'
 @Entity()
 @Unique(SessionModelUserIdUQKey, ['userId'])
 export class SessionModel extends BaseEntity {
@@ -23,7 +24,7 @@ export class SessionModel extends BaseEntity {
   @Column('uuid')
   userId: string
   @ManyToOne(() => UserModel, (userModel) => userModel.userId)
-  @JoinColumn({ name: snakeCase('userId') })
+  @JoinColumn({ name: snakeCase(userIdKey) })
   userModel: UserModel
 
   @Column({ type: 'timestamp with time zone' })

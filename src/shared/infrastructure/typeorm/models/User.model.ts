@@ -21,7 +21,7 @@ export type UserModelProps = Pick<
 >
 export type UserModelFields = UserModelProps & Pick<UserModel, 'createdAt' | 'updatedAt'>
 
-// TODO: 退会ユーザに既にUnique指定の値が使用されている場合はどうするか
+const userStatusNameKey: keyof Pick<UserModel, 'userStatusName'> = 'userStatusName'
 @Entity()
 export class UserModel extends BaseEntity {
   @PrimaryColumn('uuid')
@@ -30,7 +30,7 @@ export class UserModel extends BaseEntity {
   @Column('varchar', { length: 16 })
   userStatusName: string
   @ManyToOne(() => UserStatusModel, (userStatusModel) => userStatusModel.userStatusName)
-  @JoinColumn({ name: snakeCase('userStatusName') })
+  @JoinColumn({ name: snakeCase(userStatusNameKey) })
   userStatusModel: UserStatusModel
 
   @Column('varchar', { length: 128 })
