@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { LoginUserCaseDTO } from './login.dto'
 import { AuthRepository } from '@/domains/auth/auth.repository'
-import { UserRepository } from '@/domains/user/userRepository'
+import { UserRepository } from '@/domains/user/user.repository'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { AUTH_TYPES, USER_TYPES } from '@/shared/libs/inversify.types'
 

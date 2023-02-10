@@ -7,9 +7,8 @@ import { middleware as openApiMiddleware } from 'express-openapi-validator'
 import helmet from 'helmet'
 import { errorHandler } from './middleware/errorHandler'
 import router from './routes/routes'
-import { UserStatuses } from '@/domains/user/entities/user'
 import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'
-import { UserStatusModel } from '@/shared/infrastructure/typeorm/models'
+import { setTypeOrmInitialValues } from '@/shared/test/test.setupTypeorm'
 
 export const boot = async () => {
   // TODO: 依存の解消
@@ -23,12 +22,7 @@ export const boot = async () => {
   // TODO: 開発時のみ初期情報を入れる
   if (process.env.NODE_ENV !== 'production') {
     await appDataSource.transaction(async (em) => {
-      await em
-        .getRepository(UserStatusModel)
-        .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
-        .catch((err) => {
-          throw err
-        })
+      await setTypeOrmInitialValues(em)
     })
   }
 

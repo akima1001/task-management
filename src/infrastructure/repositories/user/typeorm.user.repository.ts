@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { User, UserCreateProps, UserStatuses } from '@/domains/user/entities/user'
-import { UserRepository } from '@/domains/user/userRepository'
+import { UserRepository } from '@/domains/user/user.repository'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { Id } from '@/shared/domains/id'
 import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'

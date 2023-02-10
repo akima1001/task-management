@@ -1,5 +1,5 @@
 import { FindUserDTO } from './findUser.dto'
-import { UserRepository } from '@/domains/user/userRepository'
+import { UserRepository } from '@/domains/user/user.repository'
 import { Id } from '@/shared/domains/id'
 
 export class FindUserUseCase {

@@ -22,15 +22,13 @@ describe('user.entity', () => {
     const emailAddress = new EmailAddress({ value: 'email@email.com' })
     const telephoneNumber = new TelephoneNumber({ value: '0000000000' })
     const now = new Date()
-    const reconstructedUser = User.reconstruct(
+    const reconstructedUser = User.reconstruct({
       userId,
-      {
-        emailAddress,
-        telephoneNumber,
-        userName
-      },
-      now
-    )
+      userName,
+      emailAddress,
+      telephoneNumber,
+      createdAt: now
+    })
 
     expect(reconstructedUser.id).toStrictEqual(userId)
     expect(reconstructedUser.userName).toStrictEqual(userName)

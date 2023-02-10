@@ -19,6 +19,7 @@ export type UserProps = {
 }
 
 export type UserCreateProps = Omit<UserProps, 'userStatus'>
+export type UserReconstructProps = UserCreateProps & { userId: Id; createdAt?: Date }
 
 export class User extends Entity<UserProps> {
   get userName(): UserName {
@@ -30,8 +31,10 @@ export class User extends Entity<UserProps> {
   get telephoneNumber(): TelephoneNumber {
     return this.props.telephoneNumber
   }
-  static reconstruct(id: Id, props: UserProps, createdAt?: Date) {
-    return new User({ id, props, createdAt })
+  static reconstruct(props: UserReconstructProps) {
+    const { userId, createdAt, ...other } = props
+
+    return new User({ id: userId, createdAt, props: { ...other } })
   }
   static create(props: UserCreateProps, createdAt?: Date): User {
     const user = new User({

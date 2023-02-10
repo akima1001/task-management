@@ -1,5 +1,5 @@
 import { User, UserCreateProps } from '@/domains/user/entities/user'
-import { UserRepository } from '@/domains/user/userRepository'
+import { UserRepository } from '@/domains/user/user.repository'
 
 export class CreateUserUseCase {
   private readonly userRepository: UserRepository

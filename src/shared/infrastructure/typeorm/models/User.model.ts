@@ -56,6 +56,6 @@ export class UserModel extends BaseEntity {
       telephoneNumber: new TelephoneNumber({ value: telephoneNumber })
     }
 
-    return User.reconstruct(userId, userProps, createdAt)
+    return User.reconstruct({ userId, ...userProps, createdAt })
   }
 }

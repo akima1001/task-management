@@ -1,6 +1,6 @@
 import clone from 'clone'
 import { User, UserCreateProps, UserStatuses, UserStatusType } from '@/domains/user/entities/user'
-import { UserRepository } from '@/domains/user/userRepository'
+import { UserRepository } from '@/domains/user/user.repository'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { Id } from '@/shared/domains/id'
 
