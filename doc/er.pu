@@ -1,10 +1,11 @@
 @startuml er
 ' timestamp = timestamp with time zone
 
+' Task集約
 entity "Task" as t {
     taskId uuid [PK]
     --
-    assignedUserId uuid [FK]
+    createdUserId uuid [FK]
     --
     taskName varchar(64)
     expiredOn date
@@ -13,6 +14,58 @@ entity "Task" as t {
     updatedAt timestamp
 }
 
+entity "TaskItem" as t_i {
+    taskItemId uuid [PK]
+    --
+    taskItemName varchar(127)
+    taskItemStatusName varchar(64)
+    expiredOn timestamp
+    startedAt timestamp
+    createdAt timestamp
+}
+
+entity "TaskStatus" as t_s {
+    taskStatusId uuid [PK]
+    --
+    taskStatusName varchar(16)
+    createdAt timestamp
+    updatedAt timestamp
+}
+
+entity "TaskItemStatus" as t_i_s {
+    taskItemStatusName varchar(16) [PK]
+    --
+    createdAt timestamp
+}
+
+entity "TaskLabel" as t_l {
+    taskLabel uuid [PK]
+    --
+    createdAt timestamp
+    updatedAt timestamp
+}
+
+' 多対多
+entity "TasksTaskItem" as t_t_i {
+    taskId uuid [PK][FK]
+    taskItemId uuid [PK][FK]
+    --
+    createdAt timestamp
+}
+entity "TasksTaskStatus" as t_t_s {
+    taskId uuid [PK][FK]
+    taskStatusId uuid [PK][FK]
+    --
+    createdAt timestamp
+}
+entity "TasksTaskLabels" as t_t_l {
+    taskId uuid [PK][FK]
+    taskLabelId uuid [PK][FK]
+    --
+    createdAt timestamp
+}
+
+' User集約
 entity "User" as u {
     userId uuid [PK]
     --
@@ -23,6 +76,12 @@ entity "User" as u {
     telephoneNumber varchar(18)
     createdAt timestamp
     updatedAt timestamp
+}
+
+entity "UserStatus" as u_s {
+    userStatusName varchar(16) [PK]
+    --
+    createdAt timestamp
 }
 
 entity "UserAuth" as u_a {
@@ -43,51 +102,33 @@ entity "Session" as s {
     cratedAt timestamp
 }
 
-entity "UserStatus" as u_s {
-    userStatusName varchar(16) [PK]
-    --
-    createdAt timestamp
-}
-
-
-entity "TaskStatus" as t_s {
-    taskStatusId uuid [PK]
-    --
-    taskStatusName varchar(16)
-    createdAt timestamp
-    updatedAt timestamp
-}
-
-entity "TasksTaskStatus" as t_t_s {
+' 複合/横断
+' 多対多
+entity "TaskAssignedUser" as t_a_u {
     taskId uuid [PK][FK]
-    taskStatusId uuid [PK][FK]
+    assignedUserId uuid [PK][FK]
     --
     createdAt timestamp
 }
 
-entity "TaskItem" as t_i {
-    taskItemId uuid [PK]
-    --
-    taskItemName varchar(127)
-    taskItemStatusName varchar(64)
-    expiredOn timestamp
-    startedAt timestamp
-    createdAt timestamp
-}
-
-entity "TaskItemStatus" as t_i_s {
-    taskItemStatusName varchar(16) [PK]
-    --
-    createdAt timestamp
-}
-
+' Task集約
+t_i }o--|| t_i_s
+' 多対多
+t }o--o{ t_t_s
+t_t_s }o--o{ t_s
+t }o--o{ t_t_i
+t_t_i }o--o{ t_i 
+t }o--o{ t_t_l
+t_t_l }o--o{ t_l
+' User集約
 u }o--|| u_s
 u ||--|| u_a
 u |o--o| s
-t }o--o{ t_t_s
-t ||--o{ t_i
+' 複合/横断
+' Task-User
 t }o--|| u
-t_s }o--o{ t_t_s
-t_i }o--|| t_i_s
+' 多対多
+t }o--o{ t_a_u
+u }o--o{ t_a_u 
 
 @enduml

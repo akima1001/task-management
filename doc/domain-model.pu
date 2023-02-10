@@ -3,7 +3,8 @@
 package Task集約 {
     object Task {
         taskId
-        assignedUserId
+        assignedUserIds
+        createdUserId
         taskItems
         taskLabels
         taskName
@@ -37,18 +38,21 @@ package User集約 {
 }
 
 note top of Task
-    * assignedUserId
-    1人のみ
+    * assignedUserIds
+    複数人可
+    8人まで
     * taskItems
     x<=32
     * taskLabels
+    8つまで
     x<=32
     * taskName
+    127
     x<=255
     * taskStatus
     x<=16
     変更可能
-    初期値はtodo
+    初期値は「TODO」
     * expiredOn
     startedAtより後
     * startedAt
@@ -68,6 +72,7 @@ note right of User
 end note
 note top of TaskLabel
     * taskLabelName
+    32まで
     x<=64
 end note
 note top of TaskItem
