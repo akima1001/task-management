@@ -8,3 +8,9 @@ export const AUTH_TYPES = {
   LogoutUseCase: Symbol.for('LogoutUseCase'),
   AuthRepository: Symbol.for('AuthRepository')
 } as const
+
+export const TASK_TYPES = {
+  TaskRepository: Symbol.for('TaskRepository'),
+  CreateTaskUseCase: Symbol.for('CreateTaskUseCase'),
+  CreateTaskLabelUseCase: Symbol.for('CreateTaskLabelUseCase')
+} as const

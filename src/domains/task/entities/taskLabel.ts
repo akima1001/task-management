@@ -3,17 +3,23 @@ import { Id } from '@/shared/domains/id'
 import { createUUId } from '@/shared/libs/createId'
 
 export type TaskLabelProps = {
-  TaskLabelId: Id
-  TaskLabelName: string
+  taskLabelName: string
 }
 export type TaskLabelCreateProps = TaskLabelProps
+export type TaskLabelReconstructProps = { id: Id; props: TaskLabelProps; createdAt?: Date }
 
 export class TaskLabel extends Entity<TaskLabelProps> {
+  get taskLabelName(): string {
+    return this.props.taskLabelName
+  }
   static create(props: TaskLabelCreateProps): TaskLabel {
     return new TaskLabel({ id: createUUId(), props })
   }
+  static reconstruct(props: TaskLabelReconstructProps) {
+    return new TaskLabel(props)
+  }
   validate(): void {
-    if (this.props.TaskLabelName.length > 64) {
+    if (this.props.taskLabelName.length > 32) {
       throw new Error('taskLabelName length error')
     }
   }

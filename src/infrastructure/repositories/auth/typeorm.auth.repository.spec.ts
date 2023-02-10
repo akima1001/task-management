@@ -5,28 +5,20 @@ import {
   AuthRepositoryLogoutProps,
   AuthRepositorySignUpProps
 } from '@/domains/auth/auth.repository'
-import { User, UserStatuses } from '@/domains/user/entities/user'
+import { User } from '@/domains/user/entities/user'
 import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
 import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'
-import { SessionModel, UserStatusModel } from '@/shared/infrastructure/typeorm/models'
+import { SessionModel } from '@/shared/infrastructure/typeorm/models'
+import { setupTypeOrmTest } from '@/shared/test/test.setupTypeorm'
 
 describe('typeorm auth repository', () => {
   beforeAll(async () => {
-    try {
-      await appDataSource.initialize()
-      await appDataSource.transaction(async (em) => {
-        await em
-          .getRepository(UserStatusModel)
-          .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
-      })
-    } catch (err) {
-      console.error(`during data source: ${err}`)
-    }
+    await setupTypeOrmTest.start()
   })
   afterAll(async () => {
-    await appDataSource.destroy()
+    await setupTypeOrmTest.stop()
   })
 
   let user: User = undefined

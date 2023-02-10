@@ -6,8 +6,10 @@ import {
   PrimaryColumn,
   UpdateDateColumn
 } from 'typeorm'
+import { TaskStatus } from '@/domains/task/entities/taskStatus'
 
 export type TaskStatusModelProps = Pick<TaskStatusModel, 'taskStatusId' | 'taskStatusName'>
+type TaskStatusFields = TaskStatusModelProps & Pick<TaskStatusModel, 'createdAt' | 'updatedAt'>
 
 @Entity()
 export class TaskStatusModel extends BaseEntity {
@@ -23,4 +25,9 @@ export class TaskStatusModel extends BaseEntity {
   updatedAt: Date
 
   static build = (props: TaskStatusModelProps) => TaskStatusModel.create({ ...props })
+  static toDomain = (props: TaskStatusFields): TaskStatus => {
+    const { taskStatusId, taskStatusName, createdAt } = props
+
+    return TaskStatus.reconstruct({ taskStatusId, taskStatusName, createdAt })
+  }
 }

@@ -50,6 +50,17 @@ paths:
       parameters:
         - $ref: '#/components/parameters/session'
       description: ログインセッションを削除する。
+  /task:
+    post:
+      summary: post-task
+      operationId: post-task
+      responses:
+        '200':
+          description: OK
+      tags:
+        - task
+      requestBody:
+        $ref: '#/components/requestBodies/postTaskRequest'
 components:
   schemas: {}
   requestBodies:
@@ -100,6 +111,59 @@ components:
             required:
               - userName
               - password
+    postTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            x-examples:
+              Example 1:
+                createdUserId: ''
+                taskName: ''
+                expiredOn: ''
+                startedAt: ''
+                taskLabels:
+                  - ''
+                assignedUserIds:
+                  - ''
+                taskStatus: ''
+            properties:
+              createdUserId:
+                type: string
+                format: uuid
+              taskName:
+                type: string
+                maxLength: 127
+              expiredOn:
+                type: string
+                format: date
+              startedAt:
+                type: string
+                format: date-time
+              taskLabelIds:
+                type: array
+                maxItems: 8
+                uniqueItems: true
+                items:
+                  type: string
+                  maxLength: 32
+              assignedUserIds:
+                type: array
+                maxItems: 8
+                uniqueItems: true
+                items:
+                  type: string
+              taskStatusId:
+                type: string
+                format: uuid
+            required:
+              - createdUserId
+              - taskName
+              - expiredOn
+              - startedAt
+              - taskLabelIds
+              - assignedUserIds
+              - taskStatusId
   parameters:
     session:
       name: session
@@ -109,4 +173,4 @@ components:
         type: string
 tags:
   - name: auth
-    description: auth
+  - name: task
