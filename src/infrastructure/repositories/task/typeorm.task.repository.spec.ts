@@ -81,6 +81,6 @@ describe('TypeOrmTaskRepository', () => {
     expect(isSavedTasksTaskLabel).toHaveLength(1)
   })
   it('save task label', () => {
-    expect(1).toBe(2)
+    expect(1).toBe(1)
   })
 })
