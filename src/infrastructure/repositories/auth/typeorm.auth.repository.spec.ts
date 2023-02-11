@@ -11,7 +11,10 @@ import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
 import { UserName } from '@/domains/user/valueObjects/userName'
 import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'
 import { SessionModel } from '@/shared/infrastructure/typeorm/models'
-import { setupTypeOrmTest } from '@/shared/test/test.setupTypeorm'
+import { container } from '@/shared/libs/inversify.config'
+import { AUTH_TYPES, USER_TYPES } from '@/shared/libs/inversify.types'
+import { setupTypeOrmTest, TestPassword, TestUserName } from '@/shared/test/test.setupTypeorm'
+import { LoginUseCase } from '@/useCases/shared/auth/login/login.userCase'
 
 describe('typeorm auth repository', () => {
   beforeAll(async () => {
@@ -23,8 +26,8 @@ describe('typeorm auth repository', () => {
 
   let user: User = undefined
   const password = 'password'
-  const userName = new UserName({ value: 'userName' })
-  const emailAddress = new EmailAddress({ value: 'test@test.com' })
+  const userName = new UserName({ value: 'spec' })
+  const emailAddress = new EmailAddress({ value: 'spec@spec.com' })
   const telephoneNumber = new TelephoneNumber({ value: '0000000000' })
   it('signUp', async () => {
     const authRepositorySignUpProps: AuthRepositorySignUpProps = {
@@ -94,5 +97,15 @@ describe('typeorm auth repository', () => {
     await new TypeOrmAuthRepository().logout(props)
     const reject = appDataSource.getRepository(SessionModel).findOneByOrFail({ sessionId })
     await expect(reject).rejects.toThrow()
+  })
+  it('auth', async () => {
+    await new LoginUseCase(
+      container.get(AUTH_TYPES.AuthRepository),
+      container.get(USER_TYPES.UserRepository)
+    ).execute({
+      userName: TestUserName,
+      password: TestPassword
+    })
+    expect(1).toBe(1)
   })
 })

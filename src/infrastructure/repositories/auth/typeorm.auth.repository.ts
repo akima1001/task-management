@@ -10,6 +10,7 @@ import {
   AuthRepositorySignUpProps
 } from '@/domains/auth/auth.repository'
 import { User, UserStatuses } from '@/domains/user/entities/user'
+import { Id } from '@/shared/domains/id'
 import { appDataSource } from '@/shared/infrastructure/typeorm/dataSource'
 import {
   SessionModel,
@@ -28,6 +29,20 @@ import { cryptoCreateHash } from '@/shared/libs/cryptoCreateHash'
  */
 @injectable()
 export class TypeOrmAuthRepository implements AuthRepository {
+  async auth(sessionId: Id): Promise<User> {
+    let userModel: UserModel = undefined
+    await appDataSource.transaction(async (em) => {
+      userModel = await em
+        .createQueryBuilder()
+        .from((qb) => qb.from(SessionModel, 's').where({ sessionId }), 't_s')
+        .innerJoin(UserModel, 'u', 'u.user_id= t_s.user_id')
+        .getRawOne<UserModel>()
+    })
+
+    console.debug(JSON.stringify(userModel))
+
+    return UserModel.toDomain(userModel)
+  }
   async login(props: AuthRepositoryLoginProps): Promise<AuthRepositoryLoginResponse> {
     const { userId, password } = props
     let response: AuthRepositoryLoginResponse = undefined

@@ -1,18 +1,13 @@
 import { EntityManager } from 'typeorm'
 import { appDataSource } from '../infrastructure/typeorm/dataSource'
-import {
-  TaskLabelModel,
-  TaskStatusModel,
-  UserModel,
-  UserStatusModel
-} from '../infrastructure/typeorm/models'
+import { TaskLabelModel, TaskStatusModel, UserStatusModel } from '../infrastructure/typeorm/models'
 import { createUUId } from '../libs/createId'
+import { container } from '../libs/inversify.config'
+import { AUTH_TYPES } from '../libs/inversify.types'
 import { TaskLabel } from '@/domains/task/entities/taskLabel'
 import { DefaultTaskStatues } from '@/domains/task/entities/taskStatus'
-import { User, UserCreateProps, UserStatuses } from '@/domains/user/entities/user'
-import { EmailAddress } from '@/domains/user/valueObjects/emailAddress'
-import { TelephoneNumber } from '@/domains/user/valueObjects/telephoneNumber'
-import { UserName } from '@/domains/user/valueObjects/userName'
+import { UserStatuses } from '@/domains/user/entities/user'
+import { SignupUseCase } from '@/useCases/shared/auth/signup/signup.useCase'
 
 export const TestUserUUID = '441d1740-770d-0ef1-22ae-d070389691a2'
 export const setTypeOrmInitialValues = async (em: EntityManager) => {
@@ -20,22 +15,6 @@ export const setTypeOrmInitialValues = async (em: EntityManager) => {
   await em
     .getRepository(UserStatusModel)
     .save(UserStatusModel.build({ userStatusName: UserStatuses.ACTIVE }))
-
-  const userCreateProps: UserCreateProps = {
-    userName: new UserName({ value: 'test' }),
-    emailAddress: new EmailAddress({ value: 'example@example.com' }),
-    telephoneNumber: new TelephoneNumber({ value: '0000123456' })
-  }
-  const newUser = User.reconstruct({ userId: TestUserUUID, ...userCreateProps })
-  await em.getRepository(UserModel).save(
-    UserModel.build({
-      userId: newUser.id,
-      userStatusName: UserStatuses.ACTIVE,
-      userName: newUser.userName.value,
-      emailAddress: newUser.emailAddress.value,
-      telephoneNumber: newUser.telephoneNumber.value
-    })
-  )
   // Task
   await em.getRepository(TaskStatusModel).save([
     { taskStatusId: createUUId(), taskStatusName: DefaultTaskStatues.TODO },
@@ -52,6 +31,8 @@ export const setTypeOrmInitialValues = async (em: EntityManager) => {
   )
 }
 
+export const TestUserName = 'userName'
+export const TestPassword = 'password'
 export const setupTypeOrmTest = {
   async start() {
     try {
@@ -60,6 +41,15 @@ export const setupTypeOrmTest = {
       /* 初期値を入れる */
       await appDataSource.transaction(async (em) => {
         await setTypeOrmInitialValues(em)
+      })
+      /* ユーザ作成 */
+      const emailAddress = 'setup@setup.com'
+      const telephoneNumber = '0000001234'
+      await new SignupUseCase(container.get(AUTH_TYPES.AuthRepository)).execute({
+        userName: TestUserName,
+        password: TestPassword,
+        emailAddress,
+        telephoneNumber
       })
     } catch (err) {
       console.error(`during data source: ${err}`)

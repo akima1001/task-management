@@ -13,7 +13,7 @@ import {
 } from '@/shared/infrastructure/typeorm/models'
 import { container } from '@/shared/libs/inversify.config'
 import { TASK_TYPES } from '@/shared/libs/inversify.types'
-import { setupTypeOrmTest } from '@/shared/test/test.setupTypeorm'
+import { setupTypeOrmTest, TestUserName } from '@/shared/test/test.setupTypeorm'
 
 describe('create task usecase', () => {
   beforeEach(async () => {
@@ -27,7 +27,9 @@ describe('create task usecase', () => {
     const { taskStatusId } = await appDataSource
       .getRepository(TaskStatusModel)
       .findOneBy({ taskStatusName: DefaultTaskStatues.TODO })
-    const { userId } = await appDataSource.getRepository(UserModel).findOneBy({ userName: 'test' })
+    const { userId } = await appDataSource
+      .getRepository(UserModel)
+      .findOneBy({ userName: TestUserName })
     const now = new Date()
     const taskName = 'test task name'
     const props: CreateTaskUseCaseProps = {
@@ -50,7 +52,9 @@ describe('create task usecase', () => {
     const { taskStatusId } = await appDataSource
       .getRepository(TaskStatusModel)
       .findOneBy({ taskStatusName: DefaultTaskStatues.TODO })
-    const { userId } = await appDataSource.getRepository(UserModel).findOneBy({ userName: 'test' })
+    const { userId } = await appDataSource
+      .getRepository(UserModel)
+      .findOneBy({ userName: TestUserName })
     const { taskLabelId } = await appDataSource
       .getRepository(TaskLabelModel)
       .findOneBy({ taskLabelName: 'test' })

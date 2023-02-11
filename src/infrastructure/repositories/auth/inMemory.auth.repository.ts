@@ -20,6 +20,9 @@ export class InMemoryAuthRepository implements AuthRepository {
   Users: Map<Id, User> = new Map<Id, User>()
   UserStatusList: Map<Id, UserStatusType> = new Map<Id, UserStatusType>()
 
+  auth(_sessionId: string): Promise<User> {
+    throw new Error('Method not implemented.')
+  }
   login(_props: AuthRepositoryLoginProps): Promise<LoginUserCaseDTO> {
     throw new Error('Method not implemented.')
   }
